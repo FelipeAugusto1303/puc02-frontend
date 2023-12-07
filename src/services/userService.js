@@ -65,6 +65,25 @@ export const login = (body) => {
 };
 
 //TODO: Create change password service
-// export const changePassword = (body) => {
-//   const index = usersList.findIndex((user) => user.username === body.username);
-// };
+export const changePassword = (body) => {
+  const user = usersList.find((userList) => userList === body.username);
+
+  if (user) {
+    const index = usersList.findIndex(
+      (userList) => userList.username === body.username
+    );
+    const tempUser = usersList[index];
+    tempUser.password = body.password;
+    usersList.splice(index, 1, tempUser);
+
+    return {
+      status: "200",
+      message: "Password changed",
+    };
+  } else {
+    return {
+      status: "404",
+      message: "User not found",
+    };
+  }
+};
