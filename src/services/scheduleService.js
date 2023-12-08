@@ -1,4 +1,4 @@
-import { schedulingList } from "../database/database";
+import { doctorsList, schedulingList } from "../database/database";
 
 const generateId = () => {
   if (schedulingList.length === 0) {
@@ -10,16 +10,16 @@ const generateId = () => {
 const createScheduleService = (schedule) => {
   const newSchedule = { id: generateId(), ...schedule };
   schedulingList.push(newSchedule);
-  return newSchedule;
+  return schedulingList;
 };
 
 export const setCreateSchedule = (schedule) => {
   if (schedule) {
-    const newSchedule = createScheduleService(schedule);
+    const newScheduleList = createScheduleService(schedule);
     return {
       status: "201",
       message: "Schedule created",
-      response: newSchedule,
+      response: newScheduleList,
     };
   } else {
     return {
@@ -41,5 +41,12 @@ export const getScheduleById = (id) => {
   return {
     status: "200",
     response: schedulingList[index],
+  };
+};
+
+export const getDoctorById = (id) => {
+  return {
+    status: "200",
+    response: doctorsList.find((doctor) => doctor.id === id),
   };
 };
