@@ -40,6 +40,7 @@ function Home() {
     const response = setCreateSchedule(body);
     if (response.status === "201") {
       setScheduleList((prev) => [...response.response]);
+      dispatch(scheduleListRequest(response.response));
       setOpen(false);
     } else {
       console.log("Bad request");
@@ -76,10 +77,12 @@ function Home() {
                 overflowY: "auto",
               }}
             >
-              {scheduleList &&
-                scheduleList.map((schedule) => (
-                  <ScheduleCard key={schedule.id} scheduleItem={schedule} />
-                ))}
+              {hasList &&
+                schedules
+                  .filter((schedule) => schedule.userId === user.id)
+                  .map((schedule) => (
+                    <ScheduleCard key={schedule.id} scheduleItem={schedule} />
+                  ))}
             </Box>
           </Box>
           <Box

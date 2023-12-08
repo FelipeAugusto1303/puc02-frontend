@@ -13,6 +13,20 @@ const createScheduleService = (schedule) => {
   return schedulingList;
 };
 
+const cancelSchedule = (id) => {
+  const newScheduleList = [...schedulingList];
+  console.log(newScheduleList);
+
+  newScheduleList.splice(
+    newScheduleList.findIndex((schedule) => schedule.id === id),
+    1
+  );
+  console.log(newScheduleList);
+  schedulingList.splice(0, schedulingList.length, ...newScheduleList);
+
+  return newScheduleList;
+};
+
 export const setCreateSchedule = (schedule) => {
   if (schedule) {
     const newScheduleList = createScheduleService(schedule);
@@ -48,5 +62,13 @@ export const getDoctorById = (id) => {
   return {
     status: "200",
     response: doctorsList.find((doctor) => doctor.id === id),
+  };
+};
+
+export const handleCancelSchedule = (id) => {
+  const scheduleList = cancelSchedule(id);
+  return {
+    status: "200",
+    response: scheduleList,
   };
 };
