@@ -29,10 +29,10 @@ export const setCreateSchedule = (schedule) => {
   }
 };
 
-export const getScheduleList = () => {
+export const getScheduleList = (id) => {
   return {
     status: "200",
-    response: schedulingList,
+    response: schedulingList.filter((schedule) => schedule.userId === id),
   };
 };
 

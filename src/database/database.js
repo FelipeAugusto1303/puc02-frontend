@@ -3,7 +3,7 @@ export const usersList = [
     id: 1,
     username: "admin@email.com",
     password: "admin",
-    fullName: "Administrator",
+    fullname: "Administrator",
     address: "Neverland",
   },
 ];
