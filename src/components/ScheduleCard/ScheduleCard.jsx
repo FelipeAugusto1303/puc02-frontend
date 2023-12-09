@@ -8,21 +8,31 @@ import {
 import ScheduleInfoModal from "../ScheduleInfoModal/ScheduleInfoModal";
 import { useDispatch } from "react-redux";
 import { scheduleListRequest } from "../../actions/scheduleAction";
+import { useSnackbar } from "notistack";
 
 function ScheduleCard({ scheduleItem }) {
   const [doctor, setDoctor] = useState(null);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     const response = getDoctorById(scheduleItem.doctorId);
     setDoctor(response.response);
   }, []);
+
   const handleCancel = () => {
     const response = handleCancelSchedule(scheduleItem.id);
     if (response.status === "200") {
+      enqueueSnackbar("Agendamento cancelado com sucesso!", {
+        variant: "success",
+      });
       dispatch(scheduleListRequest(response.response));
       setOpen(false);
+    } else {
+      enqueueSnackbar("Falha na requisição!", {
+        variant: "error",
+      });
     }
   };
   return (

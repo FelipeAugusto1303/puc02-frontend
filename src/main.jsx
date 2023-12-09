@@ -7,6 +7,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Home from "./pages/Home/Home";
+import ChangePassword from "./pages/ChangePassword/ChangePassword";
+import { SnackbarProvider } from "notistack";
 
 const router = createBrowserRouter([
   {
@@ -21,12 +23,24 @@ const router = createBrowserRouter([
     path: "/home",
     element: <Home />,
   },
+  {
+    path: "/change-password",
+    element: <ChangePassword />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
+    <SnackbarProvider
+      autoHideDuration={3000}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+    >
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </SnackbarProvider>
   </Provider>
 );

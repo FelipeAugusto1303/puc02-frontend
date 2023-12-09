@@ -10,6 +10,7 @@ import { Box, Button, Typography } from "@mui/material";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import ScheduleCard from "../../components/ScheduleCard/ScheduleCard";
 import NewScheduleModal from "../../components/NewScheduleModal/NewScheduleModal";
+import { useSnackbar } from "notistack";
 
 function Home() {
   const { schedules, hasList } = useSelector((state) => state.schedule);
@@ -19,6 +20,7 @@ function Home() {
   const [doctor, setDoctor] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (hasList) {
@@ -39,11 +41,14 @@ function Home() {
     };
     const response = setCreateSchedule(body);
     if (response.status === "201") {
+      enqueueSnackbar("Agendamento realizado com sucesso!", {
+        variant: "success",
+      });
       setScheduleList((prev) => [...response.response]);
       dispatch(scheduleListRequest(response.response));
       setOpen(false);
     } else {
-      console.log("Bad request");
+      enqueueSnackbar("Falha na requisição!", { variant: "error" });
     }
   };
 

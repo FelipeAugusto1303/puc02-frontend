@@ -1,11 +1,4 @@
-import {
-  Autocomplete,
-  Box,
-  Modal,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Modal, Typography } from "@mui/material";
 import React from "react";
 import format from "date-fns/format";
 
@@ -30,7 +23,6 @@ function ScheduleInfoModal({
   handleClose,
   handleCancelSchedule,
 }) {
-  console.log(schedule);
   return (
     <Modal
       open={open}

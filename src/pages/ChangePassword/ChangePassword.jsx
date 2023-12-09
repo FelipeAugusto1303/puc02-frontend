@@ -1,46 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/material";
 import Header from "../../components/Header/Header";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import CustomButton from "../../components/CustomButton/CustomButton";
-import { login } from "../../services/userService";
+import { changePassword } from "../../services/userService";
 import { useNavigate } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useDispatch, useSelector } from "react-redux";
-import { loginRequest } from "../../actions/userAction";
 import { useSnackbar } from "notistack";
 
-function Login() {
+function ChangePassword() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { isLogged, user } = useSelector((state) => state.auth);
   const { enqueueSnackbar } = useSnackbar();
 
-  useEffect(() => {
-    if (isLogged) {
-      enqueueSnackbar("Login realizado com sucesso!", { variant: "success" });
-      setTimeout(() => {
-        navigate("/home");
-      }, 3000);
-    }
-  }, [isLogged]);
-
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const handleLogin = () => {
-    const response = login({ username: username, password: password });
-
+  const handleChange = () => {
+    const body = {
+      username: username,
+      password: password,
+    };
+    const response = changePassword(body);
     if (response.status === "200") {
-      dispatch(loginRequest(response.response));
+      enqueueSnackbar("Senha redefinida com sucesso", { variant: "success" });
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
     } else {
-      enqueueSnackbar("Usuário e/ou Senha estão incorretos!", {
-        variant: "error",
-      });
+      enqueueSnackbar("Usuário não encontrado", { variant: "error" });
     }
   };
 
@@ -77,7 +68,7 @@ function Login() {
         <CustomInput
           type={showPassword ? "text" : "password"}
           label="Senha"
-          placeholder="Insira sua senha"
+          placeholder="Insira sua nova senha de acesso"
           value={password}
           setValue={setPassword}
           InputProps={{
@@ -90,36 +81,20 @@ function Login() {
             ),
           }}
         />
-        <Box
-          component="div"
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-            width: "50%",
-            marginBottom: "50px",
-            marginTop: "-20px",
-          }}
-        >
-          <CustomButton
-            variant="text"
-            text="Esqueceu a senha?"
-            handleClick={() => navigate("/change-password")}
-          />
-        </Box>
+
         <CustomButton
           variant="contained"
-          text="Entrar"
-          handleClick={handleLogin}
+          text="Redefinir"
+          handleClick={handleChange}
         />
         <CustomButton
           variant="text"
-          text="Registre-se"
-          handleClick={() => navigate("/register")}
+          text="Voltar"
+          handleClick={() => navigate("/")}
         />
       </Box>
     </Box>
   );
 }
 
-export default Login;
+export default ChangePassword;

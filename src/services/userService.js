@@ -66,7 +66,9 @@ export const login = (body) => {
 
 //TODO: Create change password service
 export const changePassword = (body) => {
-  const user = usersList.find((userList) => userList === body.username);
+  const user = usersList.find(
+    (userList) => userList.username === body.username
+  );
 
   if (user) {
     const index = usersList.findIndex(

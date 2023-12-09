@@ -11,7 +11,7 @@ function CustomButton({ variant, text, handleClick }) {
         background: variant === "contained" ? "#1091D1" : null,
         borderRadius: "20px",
         color: variant === "contained" ? "#fff" : "#1091D1",
-        textTransform: "capitalize",
+        textTransform: "none",
       }}
     >
       {text}

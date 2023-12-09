@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useSnackbar } from "notistack";
 
 function Register() {
   const [username, setUsername] = useState("");
@@ -16,6 +17,7 @@ function Register() {
   const [fullname, setFullname] = useState("");
   const [address, setAddress] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   const navigate = useNavigate();
 
@@ -27,7 +29,16 @@ function Register() {
       address: address,
     });
 
-    console.log(response);
+    if (response.status === "200") {
+      enqueueSnackbar("Usuário criado com sucesso !", { variant: "success" });
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    } else if (response.status === "409") {
+      enqueueSnackbar("Usuário já existe!", { variant: "error" });
+    } else {
+      enqueueSnackbar("Falha na requisição!", { variant: "error" });
+    }
   };
 
   const handleTogglePasswordVisibility = () => {
