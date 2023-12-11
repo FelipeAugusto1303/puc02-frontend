@@ -29,7 +29,7 @@ function Register() {
       address: address,
     });
 
-    if (response.status === "200") {
+    if (response.status === "201") {
       enqueueSnackbar("Usuário criado com sucesso !", { variant: "success" });
       setTimeout(() => {
         navigate("/");
